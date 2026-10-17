@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لعبة تفادي الحواجز</title>
+    <title>Barrier Avoidance Game</title>
     <style>
         * { box-sizing: border-box; font-family: Arial, sans-serif; }
         body {
@@ -102,27 +102,22 @@
         function update() {
             if (isGameOver) return;
 
-            // تطبيق الجاذبية
             player.dy += player.gravity;
             player.y += player.dy;
 
-            // الأرضية
             if (player.y > 300) {
                 player.y = 300;
                 player.dy = 0;
                 player.grounded = true;
             }
 
-            // حركة العائق
             obstacle.x -= obstacle.speed;
             if (obstacle.x < -20) {
                 obstacle.x = 320;
                 score++;
-                // زيادة السرعة تدريجياً مع النقاط
                 if (score % 5 === 0) obstacle.speed += 0.5;
             }
 
-            // التحقق من الاصطدام (خسارة)
             if (
                 player.x < obstacle.x + obstacle.width &&
                 player.x + player.width > obstacle.x &&
@@ -134,24 +129,19 @@
         }
 
         function draw() {
-            // مسح الشاشة
             ctx.fillStyle = '#1e293b';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // رسم الأرضية
             ctx.fillStyle = '#334155';
             ctx.fillRect(0, 325, canvas.width, 75);
 
             if (!isGameOver) {
-                // رسم اللاعب (مربع أزرق)
                 ctx.fillStyle = '#38bdf8';
                 ctx.fillRect(player.x, player.y, player.width, player.height);
 
-                // رسم العائق (مربع أحمر)
                 ctx.fillStyle = '#f43f5e';
                 ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
             } else {
-                // شاشة نهاية اللعبة
                 ctx.fillStyle = '#f8fafc';
                 ctx.font = '20px Arial';
                 ctx.fillText('انتهت اللعبة!', 110, 180);
@@ -159,7 +149,6 @@
                 ctx.fillText('اضغط للبدء من جديد', 105, 215);
             }
 
-            // رسم النقاط
             ctx.fillStyle = '#f8fafc';
             ctx.font = '16px Arial';
             ctx.fillText('النقاط: ' + score, 20, 30);
